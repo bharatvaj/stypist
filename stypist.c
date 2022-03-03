@@ -16,7 +16,7 @@ size_t user_test(char* text_buffer, size_t* text_buffer_len) {
 	char* key_buffer = NULL;
 	size_t key_buffer_len = 0;
 	int n = -1;
-	char* ptr = (char*) malloc(1);
+	char k;
 	FILE* stdinfd = fopen("/dev/tty", "r");
 	int fdfileno = fileno(stdinfd);
 	struct termios t;
@@ -25,8 +25,8 @@ size_t user_test(char* text_buffer, size_t* text_buffer_len) {
 	tcsetattr(fdfileno, TCSANOW, &t);
 	setbuf(stdout, NULL);
 	// show hint
-	fprintf(stdout, "%s\n", text_buffer);
-	while((n = fread(ptr, 1, 1, stdinfd))) {
+	fprintf(stdout, "\n%s", text_buffer);
+	while((n = fread(&k, 1, 1, stdinfd))) {
 		// TODO use feof and ferror to distinguish errors and eof
 		if(n == EOF) {
 			// eof or error
@@ -34,11 +34,15 @@ size_t user_test(char* text_buffer, size_t* text_buffer_len) {
 			evaluate();
 			break;
 		}
-		if(*ptr == 127) {
-			fprintf(stdout, " ");
+		if(k == 127) {
+			printf("\b \b");
+			key_buffer_len--;
+			continue;
 		}
-		char k = (char) *ptr;
-		key_buffer_len += 1;
+		if(k == '\n') {
+			break;
+		}
+		key_buffer_len++;
 		char t = text_buffer[key_buffer_len - 1];
 		// FIXME this will fail if the user makes mistake, buffer overflow possibility, maintain a HEAD int that will maintain the cursor position.
 		if(k == t) {
@@ -46,6 +50,7 @@ size_t user_test(char* text_buffer, size_t* text_buffer_len) {
 			fprintf(stdout, "\e[00m%c", k);
 		} else {
 			fprintf(stdout, "\e[00;31m%c", k);
+			fprintf(stdout, "\e[00m");
 		}
 		if (key_buffer_len == *text_buffer_len) {
 			break;
@@ -62,7 +67,6 @@ int main(int argc, char* argv[]) {
 	size_t max_buf_len = STYPIST_BUFFER_SIZE;
 	char** text_buffers = (char**)malloc(max_buf_len * sizeof(char*));
 	size_t* text_buffer_lens = (size_t*)malloc(max_buf_len * sizeof(size_t));
-	size_t text_buffer_malloc_size = 0;
 	size_t text_buffer_lines = 0;
 	size_t n = 0;
 	char* input_buffer = NULL;

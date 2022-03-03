@@ -4,7 +4,13 @@ CHANGELOG
 0.0.1
 -----
 - Read characters from pipe and give user a prompt
-o Read the keys one by one and match the pipe buffer.
+- Allow the user to backspace
+- Fixed color bug
+- Read the keys one by one and match the pipe buffer.
+- Show next prompt when previous line is finished
+
+TODO
+----
 o Measure the time when matching the text from the input
-	o Start measuring before readkey and stop it when the readkey ends
 o Use Ctrl-D to to quit test, big brain moment
+o Read the input file with buffered on
