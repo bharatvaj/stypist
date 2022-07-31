@@ -9,7 +9,6 @@
 
 #include "config.h"
 
-#define STYPIST_BUFFER_SIZE 10
 
 static int enable_raw_mode = 0;
 
@@ -41,6 +40,9 @@ static void debug(const char* msg) {
 
 // Evaluate the input characters typed by the user
 static void evaluate(int sig) {
+		if (reference_text_length == 0) {
+			return;
+		}
 		printf("\n\n");
 		accuracy = 1 - (input_error_count / reference_text_length);
 		printf("input_error_count: %f\n", input_error_count);
@@ -50,7 +52,6 @@ static void evaluate(int sig) {
 }
 
 void handle_interrupt(int signum) {
-	printf("Handled signal: %d\n", signum);
 	evaluate(signum);
 	tcsetattr(stdinfd, TCSANOW, &og_term);
 	exit(signum);
@@ -63,7 +64,7 @@ static double show_hint(const char* text_buffer, size_t text_buffer_len) {
 	if (hint_string[hint_string_len - 1] == '\n') {
 			hint_string[--hint_string_len] = '$';
 	}
-	return fprintf(stdout, "%s\n", hint_string);
+	return fprintf(stdout, STYPIST_HINT "%s\n" STYPIST_HINT_RESET, hint_string);
 	free(hint_string);
 }
 

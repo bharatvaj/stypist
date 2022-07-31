@@ -2,16 +2,16 @@ TARGET=stypist
 
 # CFLAGS="-g"
 
-build: stypist.c config.h
-	$(CC) *.c $(CFLAGS) -o $(TARGET)
+stypist: stypist.c config.h
+	$(CC) $@.c $(CFLAGS) -o $@
 
 config.h: config.def.h
-	cp config.def.h config.h
+	cp config.def.h $@
 
 clean:
-	rm -rf $(TARGET_DIR)
+	rm stypist config.h
 
-test: build
+test: stypist
 	cat stypist.c | ./stypist
 
-all: build
+all: stypist
