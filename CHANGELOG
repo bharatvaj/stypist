@@ -8,9 +8,20 @@ CHANGELOG
 - Fixed color bug
 - Read the keys one by one and match the pipe buffer.
 - Show next prompt when previous line is finished
+- Use block color instead of text color to account for spaces
+
+0.0.2
+-----
+- Detect ctrl-c and ctrl-d to quit tests
+- Add config.def.h for configurations
+- Measure accuracy and show on evaluation
 
 TODO
 ----
 o Measure the time when matching the text from the input
-o Use Ctrl-D to to quit test, big brain moment
-o Read the input file with buffered on
+	x Evaulate every line
+	x Measure accuracy
+	- Fix the wpm calculation
+o Read the input file with fixed buffer, a single line can be unfathomably large. Use buffers for stability.
+	- Evaluate results when a particular block is typed by the user. The old block must be immutable.
+
