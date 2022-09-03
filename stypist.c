@@ -115,7 +115,7 @@ void print_hint() {
 		}
 		for (int special_head = 0; special_head < special_count; special_head += 2) {
 			if (specials[special_head][0] == ref_char) {
-				render("%s%s%s", *colors[HintSpecial], specials[special_head + 1]);
+				render("%s%s", *colors[HintSpecial], specials[special_head + 1]);
 				is_special = true;
 				break;
 			}
@@ -211,7 +211,7 @@ void process_input() {
 		}
 
 		if (user_char == ref_buffer[head]) {
-			render("%s%c", *colors[Correct], user_char, *colors[Reset]);
+			render("%s%c%s", *colors[Correct], user_char, *colors[Reset]);
 		} else {
 			render("%s%c%s", *colors[Wrong], user_char, *colors[Reset]);
 		}
@@ -226,6 +226,12 @@ void draw() {
 
 int main(int argc, const char* argv[]) {
 	signal(SIGINT, handle_signal);
+	for(int argi = 0; argi < argc; argi++) {
+		if (strcmp(argv[argi], "-v") == 0) {
+			fputs(STYPIST_VERSION "\n", stdout);
+			return 0;
+		}
+	}
 	if (load_from_pipe() == -1) {
 		return -1;
 	}

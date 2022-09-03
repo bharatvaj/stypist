@@ -1,6 +1,6 @@
 TARGET=stypist
 
-CFLAGS=-g -std=c99
+include config.mk
 
 stypist: stypist.c config.h
 	$(CC) $@.c $(CFLAGS) -o $@

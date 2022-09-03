@@ -16,6 +16,15 @@ CHANGELOG
 - Add config.def.h for configurations
 - Measure accuracy and show on evaluation
 
+0.1.0
+-----
+- Full rewrite! Now in C99
+- Word calculation optimized
+- Old line becomes immutable after new line
+- Bug in hint overwrite
+- Bug in tab printing
+- Word tracking added (optimization)
+
 TODO
 ----
 o Measure the time when matching the text from the input
