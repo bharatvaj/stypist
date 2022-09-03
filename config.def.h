@@ -1,14 +1,41 @@
 /* See LICENSE file for copyright and license details. */
 
+/* colors */
+enum {
+	Reset,
+	Hint,
+	HintSpecial,
+	Wrong,
+	Correct
+};
+
+static const char* colors[][3] = {
+	/* */
+	 [Reset] = "\033[00m",
+	 [Hint] = "\033[00m",
+	 [HintSpecial] = "\033[35m",
+	 [Wrong] = "\033[37;41m",
+	 [Correct] = "\033[37;36m" // FIXME use green fg
+};
+
+
+static void go_up() {
+	// TODO not working
+	fprintf(stderr, "\033[A"); 
+}
+
 /* appearance */
-#define STYPIST_WRONG_INPUT "\e[37;41m"
-#define STYPIST_WRONG_INPUT_RESET "\e[00m"
+#define special_count 4
+static const char* specials[special_count * 2] = {
+	/* from    to*/
+	" ",        "_",
+	"\n",       "$\n",
+	"\r",       "$",
+	"	",      ">"
+};
 
-#define STYPIST_CORRECT_INPUT ""
-#define STYPIST_CORRECT_INPUT_RESET ""
+/* functionality */
+#define STYPIST_BUFFER_LEN 1024
 
-#define STYPIST_HINT "\e[00m"
-#define STYPIST_HINT_RESET "\e[00m"
-
-/* buffer */
-#define STYPIST_BUFFER_SIZE 10
+/* keys */
+static int backspace_key = 127;

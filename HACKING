@@ -3,6 +3,6 @@ HACKING
 
 The meaning of variable names can be helpful if you are trying to contribute to this project.
 
-text_buffer* - Denotes the stdin input from which we take the words to match.
+ref_buffer - Denotes the stdin input from which we take the words to match.
 
-key_buffer* Denotes the keypress by the user at any given time. This is a buffer instead of char to support multibyte strings.
+user_char -  Denotes the keypress by the user at any given time. This is a buffer instead of char.
